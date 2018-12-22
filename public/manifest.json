@@ -1,6 +1,6 @@
 {
-  "short_name": "Calculator",
-  "name": "React Calculator Example App",
+  "short_name": "reddit",
+  "name": "React reddit gallery App",
   "icons": [
     {
       "src": "favicon.ico",
