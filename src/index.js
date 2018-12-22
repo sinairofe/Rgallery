@@ -3,6 +3,9 @@ import ReactDOM from "react-dom";
 import Post from "./Post";
 import "./index.css";
 import reddit from './redditapi';
+
+/** sinai.rofe
+*/
    
 
 let posts = []; 
