@@ -10,7 +10,7 @@ import reddit from './redditapi';
 class Gallery extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { postsMap: new Map(), search:'fa fa-search',page: 0,ArrowIcon:'hidden'}; 
+    this.state = { postsMap: new Map(), search:'fa fa-search',page: 0,ArrowIcon:'hidden',noresult:false}; 
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.getPostInPage = this.getPostInPage.bind(this);
     this.nextPage = this.nextPage.bind(this);
@@ -45,7 +45,9 @@ class Gallery extends React.Component {
             indexItem++;
           }
       }) 
-       this.setState ({ postsMap: postsMap,search:'fa fa-search',ArrowIcon:'arrows' });  
+         const noresult = indexItem > 0? false:true;
+         const arrowIcon = indexItem > 0?"arrows":"hidden";
+       this.setState ({ postsMap: postsMap,search:'fa fa-search',ArrowIcon: arrowIcon,noresult:noresult });  
    })
 
   }
@@ -100,6 +102,7 @@ handleKeyDown(e) {
                  })
               }
           </div>
+          <div className={this.state.noresult ?"no-result" : "hidden"}>No result found</div>
       </div>
     )
   }
