@@ -1,28 +1,32 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Post from "./Post";
+import Search from "./search";
+import Pagination from "./Pagination";
 import "./index.css";
 import reddit from './redditapi';
 
 
- const MAX_ITEM_PER_PAGE = 9;
-
+const MAX_ITEM_PER_PAGE = 9;
 class Gallery extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { postsMap: new Map(), search:'fa fa-search',page: 0,ArrowIcon:'hidden',noresult:false}; 
+    this.state = {
+                  postsMap: new Map(), 
+                  search:'fa fa-search',
+                  ArrowIcon:'hidden',
+                  page: 0,
+                  noresult:false
+                }; 
+
     this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.getPostInPage = this.getPostInPage.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.prevPage = this.prevPage.bind(this);
-
   }
 
   componentWillMount() { 
   }  
   
-
-
   componentDidMount() {
   }  
 
@@ -32,6 +36,9 @@ class Gallery extends React.Component {
       let indexItem = 0;
       let pageNumber = 0;
       const postsMap = new Map();
+      this.setState ({postsMap: new Map(),
+                      page:0,
+                      ArrowIcon: "hidden"});  
 
        reddit.search(param).then(results => {
          results.forEach(post => {
@@ -81,21 +88,22 @@ handleKeyDown(e) {
   }
 
   render() {
-    let pagePosts =  Array.from(this.state.postsMap)
+    const pagePosts =  [...this.state.postsMap]
                           .filter((posts,page)=> page === this.state.page);
-    let postsInPage = this.getPostInPage(pagePosts);
+    const postsInPage = this.getPostInPage(pagePosts);
+    const pageIndex = `${this.state.page+1}/${this.state.postsMap.size}`;
        
     return (
-      <div className="gallery-container">
-          <div className="search">
-              <span className={this.state.search}></span>
-              <input placeholder ="Type subreddit" onKeyDown={this.handleKeyDown} />
-           </div>   
-            <div className={this.state.ArrowIcon}>
-              <span onClick = {this.prevPage} className="fa fa-arrow-circle-left"></span>
-              <span onClick = {this.nextPage} className="fa fa-arrow-circle-right"></span>
-            </div>
-            <div className="gallery-grid"> 
+      <div className="gallery-wrapper">
+           <Search icon={this.state.search} 
+                    keydown={this.handleKeyDown}>
+           </Search>  
+           <Pagination   prev={this.prevPage} 
+                         next={this.nextPage}  
+                         pageIndex={pageIndex}
+                         arrowIcon={this.state.ArrowIcon}>
+           </Pagination> 
+           <div className="gallery-grid"> 
               {
                 postsInPage.map((p)=> {
                     if (p) return <Post key={p.permalink} post={p} ></Post>
@@ -110,4 +118,4 @@ handleKeyDown(e) {
 
 
 
-ReactDOM.render(<Gallery />, document.querySelector('.gallery-container'));
+ReactDOM.render(<Gallery />, document.querySelector('.gallery-wrapper'));
