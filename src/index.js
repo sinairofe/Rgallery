@@ -56,7 +56,9 @@ class Gallery extends React.Component {
          const noresult = indexItem > 0? false:true;
          const arrowIcon = indexItem > 0?"arrows":"hidden";
        this.setState ({ postsMap: postsMap,search:'fa fa-search',ArrowIcon: arrowIcon,noresult:noresult });  
-   })
+      }).catch((err) => {
+        // Handle any error that occurred in reddit search
+      });
 
   }
   
