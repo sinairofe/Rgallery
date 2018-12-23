@@ -89,7 +89,7 @@ body {
     grid-template-columns: repeat(1, 1fr);
   }
   .arrows{
-    width: 70%;
+    width: 80%;
   }
   .search{
     width: 80%;

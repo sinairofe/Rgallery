@@ -22,6 +22,7 @@ class Gallery extends React.Component {
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.prevPage = this.prevPage.bind(this);
+    this.clickSearch = this.clickSearch.bind(this);
   }
 
   componentWillMount() { 
@@ -31,7 +32,7 @@ class Gallery extends React.Component {
   }  
 
 
-  search(param){
+  searchPosts(param){
       let posts = []; 
       let indexItem = 0;
       let pageNumber = 0;
@@ -59,11 +60,21 @@ class Gallery extends React.Component {
 
   }
   
-handleKeyDown(e) {
+ handleKeyDown(e) {
    if (e.keyCode === 13){
       this.setState ({ search:'fa fa-spinner' });  
-      this.search(e.target.value)
+      this.searchPosts(e.target.value);
       const searchElm = e.target.parentNode;
+      searchElm.classList.add('above'); 
+    }
+  }
+
+  clickSearch (e){
+    const value  = e.value;
+    if(value){ 
+      this.setState ({ search:'fa fa-spinner' });  
+      this.searchPosts(value);
+      const searchElm = e.parentNode; 
       searchElm.classList.add('above'); 
     }
   }
@@ -96,7 +107,8 @@ handleKeyDown(e) {
     return (
       <div className="gallery-wrapper">
            <Search icon={this.state.search} 
-                    keydown={this.handleKeyDown}>
+                    keydown={this.handleKeyDown}
+                    search = {this.clickSearch}>
            </Search>  
            <Pagination   prev={this.prevPage} 
                          next={this.nextPage}  
